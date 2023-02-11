@@ -33,7 +33,7 @@ def bandpassfilter_cheby2_sos(data, bandFiltCutF=[0.3, 40], fs=1000, filtAllowan
         fStop = (bandFiltCutF[1] + filtAllowance[1]) / nFreq
         # find the order
         [N, ws] = signal.cheb2ord(fPass, fStop, aPass, aStop)
-        sos = signal.cheby2(N, aStop, fStop, 'lowpass', output='sos')
+        sos = signal.cheby2(N, aStop, ws, 'lowpass', output='sos')
 
     elif (bandFiltCutF[1] is None) or (bandFiltCutF[1] == fs / 2.0):
         # high-pass filter
@@ -42,7 +42,7 @@ def bandpassfilter_cheby2_sos(data, bandFiltCutF=[0.3, 40], fs=1000, filtAllowan
         fStop = (bandFiltCutF[0] - filtAllowance[0]) / nFreq
         # find the order
         [N, ws] = signal.cheb2ord(fPass, fStop, aPass, aStop)
-        sos = signal.cheby2(N, aStop, fStop, 'highpass', output='sos')
+        sos = signal.cheby2(N, aStop, ws, 'highpass', output='sos')
 
     else:
         # band-pass filter
@@ -52,7 +52,7 @@ def bandpassfilter_cheby2_sos(data, bandFiltCutF=[0.3, 40], fs=1000, filtAllowan
                  (bandFiltCutF[1] + filtAllowance[1]) / nFreq]
         # find the order
         [N, ws] = signal.cheb2ord(fPass, fStop, aPass, aStop)
-        sos = signal.cheby2(N, aStop, fStop, 'bandpass', output='sos')
+        sos = signal.cheby2(N, aStop, ws, 'bandpass', output='sos')
 
     dataOut = signal.sosfilt(sos, data, axis=axis)
 
